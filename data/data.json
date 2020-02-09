@@ -1,0 +1,29 @@
+{
+	"nodes": 
+	[
+		{"id": 0,"title": "Bezos on change","type": "citation","content": "I very frequently get the question: What’s going to change in the next 10 years? And that is a very interesting question; it’s a very common one. I almost never get the question: What’s not going to change in the next 10 years?","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 1,"title": "Cater needs","content": "Sell something people want. There are so many needs to be fulfilled, you don’t have to invent some.","type": "citation","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 2,"title": "Mental Models","content": "Mental models as essence of past thinking; being the stable and enduring condensate that is not biased by application of thinking to past realities (compared to intuition)?","type": "thought","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 3,"title": "MAYA","content": "Most Advanced, Yet Acceptable. MAYA!","type": "principle","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 4,"title": "Life is about people","content": "... not stuff","type": "principle","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 5,"title": "Alternative Solution","content": "You don’t fight a system by being against it - you can only truly change reality when you offer an alternative, better solution.","type": "thought","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 6,"title": "Consistent non-stupidity","content": "It is remarkable how much long­term advantage people like us have gotten by trying to be consistently not stupid, instead of trying to be very intelligent. There must be some wisdom in the folk saying, `It’s the strong swimmers who drown.","type": "citation","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 7,"title": "Technical Solutionism","content": "Critical comment on belief in technologies solving problems instead of being tools (without moral value themselves) that can be used to solve problems.","type": "thought","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 8,"title": "Art, Science, Engineering, Design","content": "Usually, Art is for expression, science is for exploration, engineering is for inventing, design is for communication. But why can’t we take these for squares and draw a circle around them where the output of one is the input of another.","type": "citation","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 13,"title": "Wonderful Life","content": "Es gibt zwei Arten sein Leben zu leben: entweder so, als wäre nichts ein Wunder, oder so, als wäre alles eines. Ich glaube an Letzteres.","type": "citation","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 14,"title": "Albert Einstein","content": "Albert Einstein","type": "person","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 9,"title": "Neri Oxman","content": "Neri Oxman","type": "person","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 10,"title": "Charlie Munger","content": "Charlie Munger","type": "person","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 11,"title": "Seth Godin","content": "Seth Godin","type": "person","origin": {"location": "","createdAt": "","createdBy": ""}},
+		{"id": 12,"title": "Jeff Bezos","content": "Jeff Bezos","type": "person","origin": {"location": "","createdAt": "","createdBy": ""}}
+	],
+	"links": 
+	[
+		{"source": 0,"target": 12,"strength": 1,"type": "origin"},
+		{"source": 1,"target": 11,"strength": 1,"type": "origin"},
+		{"source": 6,"target": 10,"strength": 1,"type": "origin"},
+		{"source": 8,"target": 9,"strength": 1,"type": "origin"},
+		{"source": 13,"target": 14,"strength": 1,"type": "origin"},
+		{"source": 0,"target": 6,"strength": 0.3,"type": "content"}
+	]
+}
