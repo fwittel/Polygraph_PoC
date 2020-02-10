@@ -9,30 +9,33 @@ export default function(n, cbs) {
 
 	node.selectAll("#tags, #citations")
 		.on('click', function() {
-			console.log(this);
-			callbacks.recenter("node recenter id");
+			const targetData = d3.select(d3.event.target).datum();
+			if (targetData) {
+				callbacks.recenterGraph(targetData.id);
+			}
 		});
 
 	node.select("#search form")
 		.on("input", function() {
-			console.log(this);
+			const searchQuery = document.querySelector("#search input").value;
+			callbacks.searchString(searchQuery);
 		});
 
 	function update() {
 		if (!data || !node || !cbs) return;
 
 		node.select("#tags")
-			.selectAll("div")
-			.data(data.authors, n => n.id)
-			.join("div")
+			.selectAll("span")
+			.data(data.authors, n => n ? n.id : null)
+			.join("span")
+				.classed("uk-label", true)
 				.text(n => n.content);
 
-console.log(data.citations);
 		node.select("#citations")
 			.selectAll("div")
-			// .data(data.citations, n => n.id)
-			.data(data.citations)
+			.data(data.citations, n => n ? n.id : null)
 			.join("div")
+				.classed("uk-card uk-card-hover uk-card-body", true)
 				.text(n => n.content);
 
 	}

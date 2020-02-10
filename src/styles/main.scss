@@ -6,7 +6,9 @@ $global-link-color: #DA7D02;
 @import "uikit/src/scss/mixins-theme.scss";
 
 // 3. Your custom mixin overwrites.
-@mixin hook-card() { color: #000; }
+@mixin hook-card() { color: #000; } 
+$offcanvas-bar-background: #fcf;
+$offcanvas-bar-color-mode: none;
 
 // 4. Import UIkit.
 @import "uikit/src/scss/uikit-theme.scss";
@@ -20,11 +22,19 @@ h3 {
 }
 
 #viz { 
-	// dimensions: 100vw 100vh;
-	height: 500;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	position: relative;
 	div {
 		position: absolute;
 		width: 15em;
 		transform: translate(-50%, -50%);
+	}
+}
+
+#menu {
+	#citations {
+
 	}
 }

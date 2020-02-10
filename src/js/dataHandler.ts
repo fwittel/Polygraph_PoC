@@ -52,11 +52,11 @@ export default function(dInit) {
 		do {
 			let newNodeIds = [];
 			for (var node of nodesAround.filter(n => n.iteration === iteration)) {
-				newNodeIds.concat(data.links.filter(l => l.source === centerNodeId).map(l => l.target));
-				newNodeIds.concat(data.links.filter(l => l.target === centerNodeId).map(l => l.source));
+				newNodeIds = newNodeIds.concat(data.links.filter(l => l.source.id === node.id).map(l => l.target.id));
+				newNodeIds = newNodeIds.concat(data.links.filter(l => l.target.id === node.id).map(l => l.source.id));
 			}
 			iteration++;
-			for (var newNodeId in newNodeIds) {
+			for (var newNodeId of newNodeIds) {
 				if(!nodesAround.some(n => n.id === newNodeId)) {
 					nodesAround.push({id: newNodeId, iteration: iteration})
 				}

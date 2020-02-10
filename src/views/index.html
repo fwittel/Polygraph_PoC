@@ -6,56 +6,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 </head>
 <body class="uk-height-viewport">
-	<!-- <nav class="uk-navbar uk-navbar-container uk-margin"> -->
 	    <div id="menu" class="uk-navbar-left">
-	        <!-- <a class="uk-navbar-toggle uk-icon-button" uk-navbar-toggle-icon href="#"></a> -->
-	        <a href="" class="uk-icon-button" uk-icon="menu"></a>
-			<div uk-dropdown="pos: bottom-left; mode: click" class="uk-card-small uk-width-medium uk-margin uk-overflow-auto uk-height-max-large">
-				<!-- <button class="uk-drop-close" type="button" uk-close></button> -->
-				<div id="search" class="uk-margin">
-				    <form class="uk-search uk-search-default uk-width-1-1">
-				        <a href="" uk-search-icon></a>
-				        <input class="uk-search-input" type="search" placeholder="Search...">
-				    </form>
-				</div>
-			    <h3 class="uk-heading-divider">Topics</h3>
-			    <div id="tags">
-		        	<span class="uk-label">Lorem</span>
-		        	<span class="uk-label">Ipsum</span>
-					<span class="uk-label">Dolor</span>
-					<span class="uk-label">Sit</span>
-					<span class="uk-label">Amet </span>
-					<span class="uk-label">Consetetur</span>
+			<div id="offcanvas" uk-offcanvas="bg-close: false">
+				<div class="uk-offcanvas-bar">
+					<button type="button" class="uk-offcanvas-close uk-position-small uk-position-top-right" uk-close></button>
+					<div id="search">
+					    <form class="uk-search uk-search-default uk-width-1-1">
+							<span uk-search-icon></span>
+							<input class="uk-search-input" type="search" placeholder="Search...">
+					    </form>
+					</div>
+				    <h3 class="uk-heading-divider">Topics</h3>
+				    <div id="tags">
+				    	<!-- added by menu.ts -->
+				    </div>
+				    <h3 class="uk-heading-divider">Citations</h3>
+				    <div id="citations">
+				    	<!-- added by menu.ts -->
+			        </div>
 			    </div>
-			    <h3 class="uk-heading-divider">Citations</h3>
-			    <div id="citations">
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		            <div class="uk-card uk-card-hover uk-card-body">
-		                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-		            </div>
-		        </div>
 			</div>	
 	    </div>
 	    <div id="viz">
 	    	<!-- Divs of Visualization go here -->
 	    </div>
+	    <a href="#offcanvas" class="uk-position-small uk-position-top-left" uk-toggle uk-icon="menu"></a>
 	<!-- </nav> -->
 </body>
 </html>
