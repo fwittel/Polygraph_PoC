@@ -7,7 +7,7 @@ $global-link-color: #DA7D02;
 
 // 3. Your custom mixin overwrites.
 @mixin hook-card() { color: #000; } 
-$offcanvas-bar-background: #fcf;
+$offcanvas-bar-background: #fff;
 $offcanvas-bar-color-mode: none;
 
 // 4. Import UIkit.
@@ -15,10 +15,28 @@ $offcanvas-bar-color-mode: none;
 
 body {
 	height: 100vh;
+	font-family: 'Tinos', serif;
 }
 
 h3 {
 	font-size: 12pt;
+}
+
+.uk-label {
+	// border-bottom: 1px solid;
+	// border-top: 1px solid;
+	margin: 0 .2em 0 0;
+	background-color: #fff;
+	color: #333;
+	// font-weight: bold;
+}
+
+.uk-offcanvas-bar {
+	border-right: 1px solid gray;
+}
+
+#citations div {
+	margin: 1em 0 1em 0;
 }
 
 #viz { 
@@ -30,6 +48,16 @@ h3 {
 		position: absolute;
 		width: 15em;
 		transform: translate(-50%, -50%);
+		cursor: default;
+	}
+	.tag {
+		text-transform: uppercase;
+		width: auto;
+		line-height: 1;
+		font-weight: bold;
+		// border-bottom: .5px solid;
+		// border-top: .5px solid;
+
 	}
 }
 

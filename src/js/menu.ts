@@ -26,7 +26,7 @@ export default function(n, cbs) {
 
 		node.select("#tags")
 			.selectAll("span")
-			.data(data.authors, n => n ? n.id : null)
+			.data(data.tags, n => n ? n.id : null)
 			.join("span")
 				.classed("uk-label", true)
 				.text(n => n.content);
@@ -35,7 +35,7 @@ export default function(n, cbs) {
 			.selectAll("div")
 			.data(data.citations, n => n ? n.id : null)
 			.join("div")
-				.classed("uk-card uk-card-hover uk-card-body", true)
+				// .classed("uk-card uk-card-hover uk-card-body", true)
 				.text(n => n.content);
 
 	}

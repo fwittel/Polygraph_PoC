@@ -5,17 +5,18 @@ export default function(dInit) {
 
 	function dataUpdate(dataIn) {
 		if (!dataIn) return;
-		for (let link of dataIn.links) {
-			const sourceNode = dataIn.nodes.find(n => n.id === link.source);
-			const targetNode = dataIn.nodes.find(n => n.id === link.target);
-			if (sourceNode && targetNode) {
-				link.source = sourceNode;
-				link.target = targetNode;
-			}
-			else {
-				console.log("Sorce data contains link without corresponding nodes: ", link);
-			}
-		}
+		// for (let link of dataIn.links) {
+		// 	const sourceNode = dataIn.nodes.find(n => n.id === link.source);
+		// 	const targetNode = dataIn.nodes.find(n => n.id === link.target);
+		// 	if (sourceNode && targetNode) {
+		// 		link.source = sourceNode;
+		// 		link.target = targetNode;
+		// 	}
+		// 	else {
+		// 		console.log("Sorce data contains link without corresponding nodes: ", link);
+		// 	}
+		// }
+		// console.log(dataIn);
 		data = dataIn;
 	}
 
@@ -36,8 +37,8 @@ export default function(dInit) {
 
 		let result = {};
 		
-		result.citations = data.nodes.filter(d => d.type !== "person" && d.content.toLowerCase().search(searchString.toLowerCase()) > -1);
-		result.authors = data.nodes.filter(d => d.type === "person" && d.title.toLowerCase().search(searchString.toLowerCase()) > -1)
+		result.citations = data.nodes.filter(d => d.type !== "tag" && d.content.toLowerCase().search(searchString.toLowerCase()) > -1);
+		result.tags = data.nodes.filter(d => d.type === "tag" && d.content.toLowerCase().search(searchString.toLowerCase()) > -1)
 		
 		return result;
 	}
@@ -55,7 +56,7 @@ export default function(dInit) {
 				newNodeIds = newNodeIds.concat(data.links.filter(l => l.source.id === node.id).map(l => l.target.id));
 				newNodeIds = newNodeIds.concat(data.links.filter(l => l.target.id === node.id).map(l => l.source.id));
 			}
-			iteration++;
+			iteration++;	
 			for (var newNodeId of newNodeIds) {
 				if(!nodesAround.some(n => n.id === newNodeId)) {
 					nodesAround.push({id: newNodeId, iteration: iteration})
