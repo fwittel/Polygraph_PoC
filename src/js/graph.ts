@@ -9,18 +9,23 @@ export default function() {
 
 	const forceCenter = d3.forceCenter();
 	const forceX = d3.forceX()
-		.strength(n => n.iteration ? .05 / n.iteration ** 2 : .005);
+		.strength(n => n.iteration === 0 ? .1 : n.renderValue * .0003);
+		// .strength(n => n.renderValue ? .05 / n.renderValue ** 2 : .005);
 	const forceY = d3.forceY()
-		.strength(n => n.iteration ? .05 / n.iteration ** 2 : .005);
+		.strength(n => n.iteration === 0 ? .1 : n.renderValue * .002);
+		// .strength(n => n.renderValue ? .05 / n.renderValue ** 2 : .005);
 	const forceManyBody = d3.forceManyBody()
 		// .strength(-100)
-		.strength(n => n.iteration ? -200 / n.iteration : -200 / 4);
-	// const forceCollide = d3.forceCollide()
-	// 	.radius(n => n.iteration ? 100 / n.iteration : 20)
+		.strength(n => n.renderValue * -300);
+	const forceCollide = d3.forceCollide()
+		.radius(n => n.renderValue * 10)
+		.radius(10)
+		.strength(n => n.renderValue);
 	const forceLink = d3.forceLink()
-		.strength(l => l.value * 0.01);
+		.strength(l => l.value * 0.005);
 
 	let graphLayout = d3.forceSimulation()
+		.alphaDecay(0.01)
 		.force("center", forceCenter)
 		.force("forceX", forceX)
 		.force("forceY", forceY)
@@ -49,7 +54,8 @@ export default function() {
 
 		graphLayout
 			.nodes(data.nodes)
-			.alphaTarget(1)
+			// .alphaTarget(0)
+			.alpha(1)
 			.restart();
 
 		// Better create once and use same?
@@ -60,34 +66,20 @@ export default function() {
 		node.selectAll("div")	
 			.data(data.nodes, n => n.id)
 			.join("div")
-				.text(n => n.content)
+				.text(n => `${n.iteration} / ${n.renderValue} / ${n.content}`)
 				.on("click", n => {
 					console.log(n);
-					if (clickCallback) clickCallback(n.id)
+					if (clickCallback) clickCallback(n)
 				})
 				.attr("class", n => n.type)
-				// .transition(t)
-				.style("font-size", n => {
-					switch (n.iteration) {
-						case 1: return "12pt";
-						case 2: return "10pt";
-						case 3: return "6pt";
-						case 4: return "4pt";
-						default: return "1pt";
-					}
-				})
+				.style("font-size", n => `${(n.renderValue * 20)}pt`)
 				.style("filter", n => {
-					if (n.iteration) {
-						if (n.iteration < 3) return null;
-						return `blur(${(n.iteration - 3) * .4}em)`
-					}
-					return `blur(1em)`
+					if (n.renderValue > .4) return null;
+					return `blur(${(.4 - n.renderValue) * 1}em)`
 				})
 				.style("opacity", n => {
-					if (n.iteration) {
-						if (n.iteration < 3) return 1;
-						return 1 - (n.iteration - 3) * .3;
-					}
+					if (n.renderValue > .4) return 1;
+					return n.renderValue / .4;
 				})
 				// .call(graphLayout.drag)
 

@@ -11,7 +11,7 @@ export default function(n, cbs) {
 		.on('click', function() {
 			const targetData = d3.select(d3.event.target).datum();
 			if (targetData) {
-				callbacks.recenterGraph(targetData.id);
+				callbacks.recenterGraph(targetData);
 			}
 		});
 

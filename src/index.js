@@ -10,8 +10,8 @@ import * as d3 from "d3"
 
 // UIkit.notification('Hello world.');
 
-import * as dataIn from '../data/data.json'
-import * as dataInRaw from '../data/bill_campbell_raw.json'
+// import * as dataIn from '../data/data.json'
+// import * as dataInRaw from '../data/bill_campbell_raw.json'
 import * as dataInPrev from '../data/bill_campbell.json'
 // import * as dataInPrev from '../data/bill_campbell_preview.json'
 import DataHandler from './js/dataHandler.ts'
@@ -22,14 +22,15 @@ const vizNode = d3.select("#viz");
 const menuNode = d3.select("#menu");
 
 const dataPrev = parseTable(dataInPrev.default);
+console.log(dataPrev);
 
 let dataHandler = DataHandler(dataPrev);
 let graph = Graph()
 	.node(vizNode)
 	.click(recenterGraph);
 
-function recenterGraph(centerNodeId) {
-	const centeredData = dataHandler.recenter(centerNodeId);
+function recenterGraph(centerNode) {
+	const centeredData = dataHandler.recenter(centerNode);
 	console.log(centeredData);
 	graph.data(centeredData);
 }
@@ -41,9 +42,8 @@ function searchString(searchString) {
 
 let menu = Menu(menuNode, {recenterGraph, searchString});
 
-let centeredData = dataHandler.recenter("0") 
-centeredData = dataHandler.recenter("0") 
-
+let centeredData = dataHandler.recenter(dataPrev.nodes[0]); 
+console.log(centeredData);
 graph.data(centeredData);
 
 // graph.highlightWord("not");
@@ -89,6 +89,6 @@ function parseTable(dataTable) {
 		dataOut.nodes.push(newNode);
 	});
 	dataOut.nodes.forEach((v, i) => v.id = i);
-	console.log(dataOut);
+	// console.log(dataOut);
 	return dataOut;
 }
