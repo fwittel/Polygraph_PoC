@@ -12,7 +12,8 @@ import * as d3 from "d3"
 
 import * as dataIn from '../data/data.json'
 import * as dataInRaw from '../data/bill_campbell_raw.json'
-import * as dataInPrev from '../data/bill_campbell_preview.json'
+import * as dataInPrev from '../data/bill_campbell.json'
+// import * as dataInPrev from '../data/bill_campbell_preview.json'
 import DataHandler from './js/dataHandler.ts'
 import Graph from './js/graph.ts'
 import Menu from './js/menu.ts'
