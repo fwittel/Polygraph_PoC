@@ -1,5 +1,6 @@
 // 1. Your custom variables and variable overwrites.
-$global-link-color: #DA7D02;
+$global-link-color: #333;
+$global-font-family: 'Cardo', serif;
 
 // 2. Import default variables and available mixins.
 @import "uikit/src/scss/variables-theme.scss";
@@ -15,20 +16,25 @@ $offcanvas-bar-color-mode: none;
 
 body {
 	height: 100vh;
-	font-family: 'Tinos', serif;
+	color: #333
 }
 
 h3 {
 	font-size: 12pt;
 }
 
+.uk-label, #viz div, #citations div {
+	cursor: pointer;
+}
+
 .uk-label {
 	// border-bottom: 1px solid;
 	// border-top: 1px solid;
-	margin: 0 .2em 0 0;
+	// font-weight: bold;
 	background-color: #fff;
 	color: #333;
-	// font-weight: bold;
+	margin: 0 15px 10px 0;
+	padding: 0;
 }
 
 .uk-offcanvas-bar {
@@ -36,7 +42,7 @@ h3 {
 }
 
 #citations div {
-	margin: 1em 0 1em 0;
+	margin: 0 0 15px 0;
 }
 
 #viz { 
@@ -44,11 +50,15 @@ h3 {
 	width: 100vw;
 	overflow: hidden;
 	position: relative;
+	font-size: 16pt;
+	transition-timing-function: ease-in-out;
+	transform-origin: center center;
 	div {
 		position: absolute;
 		width: 15em;
 		transform: translate(-50%, -50%);
-		cursor: default;
+		// Workaround for Safari rendering artifacts
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
 	}
 	.tag {
 		text-transform: uppercase;
@@ -57,12 +67,20 @@ h3 {
 		font-weight: bold;
 		// border-bottom: .5px solid;
 		// border-top: .5px solid;
-
 	}
 }
 
-#menu {
-	#citations {
-
+.tippy-popper {
+	text-align: center;
+	p {
+		margin: 0 0 0.5em 0;
 	}
+}
+
+.tippy-content div {
+	padding: .5em;
+}
+
+.tippy-popper, #modal {
+	font-family: "Montserrat", sans-serif;
 }

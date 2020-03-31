@@ -2,8 +2,36 @@ import * as d3 from "d3";
 
 export default function(dInit) {
 
-	//  Closure
 	let data;
+	const targetNodeCount = 20;
+	const targetAverageValue = .4;
+	const targetCurve = [
+		1,
+		0.707,
+		0.693,
+		0.679,
+		0.643,
+		0.607,
+		0.571,
+		0.514,
+		0.429,
+		0.357,
+		0.3,
+		0.25,
+		0.221,
+		0.2,
+		0.179,
+		0.157,
+		0.136,
+		0.121,
+		0.107,
+		0.093,
+		0.079,
+		0.064,
+		0.05,
+		0.043,
+		0.029
+	];
 
 	function dataUpdate(dataIn) {
 		if (!dataIn) return;
@@ -57,51 +85,94 @@ export default function(dInit) {
 		
 		let foundIds = [centerNode.id];
 
+		// Get the elements closest to source node:
 		do {
 			for (var node of nodesAround.filter(n => n.iteration === iteration - 1)) {
-				// console.log(node);
 				const sourceLinks = data.links.filter(l => l.source.id === node.id);
 				const targetLinks = data.links.filter(l => l.target.id === node.id);
 				linksAround = linksAround.concat(sourceLinks).concat(targetLinks); // includes links to already found nodes
-				// console.log(linksAround);
-				// console.log(sourceLinks);
 				const sourceLinkNodes = sourceLinks.map(l => Object.assign(l.target, {linkValue: l.value}));
 				const targetLinkNodes = targetLinks.map(l => Object.assign(l.source, {linkValue: l.value}));
-				// console.log(sourceLinkNodes);
 				const childNodes = [...sourceLinkNodes, ...targetLinkNodes].filter(n => !foundIds.some(f => f === n.id));
 				childNodes.forEach(c => {
 					c.iteration = iteration;
 					c.multipliedLinkValue = node.multipliedLinkValue * c.linkValue / iteration;
 				});
-				// console.log(childNodes);
 				foundIds = foundIds.concat(childNodes.map(n => n.id));
-				// console.log(foundIds);
 				nodesAround = nodesAround.concat(childNodes);
-				// console.log(nodesAround);
-				// console.log(nodesAround.length);
 			}
 			iteration++;
 				
 		} while (nodesAround.length < 50 && iteration < 10);
 
-		// Rough data-cleanup:
-		nodesAround = nodesAround.sort((a, b) => a.multipliedLinkValue > b.multipliedLinkValue);
-		nodesAround = nodesAround.slice(0, 30);
-		for (let i in nodesAround) {
-			if (i === 0) nodesAround[i].renderValue = 1 
-			else if (i < 4) nodesAround[i].renderValue = 0.6;
-			else if (i < 12) nodesAround[i].renderValue = 0.3;
-			else nodesAround[i].renderValue = 0.1;
+		// Stretch closest nodes' distances to better fit UI expectations:
+		// We want at least two tags in the list, correct as long as that works:
+		let nodesAroundSlice;
+		while (true) {
+			nodesAround.sort((a, b) => (a.multipliedLinkValue > b.multipliedLinkValue ? -1 : 1));
+			nodesAroundSlice = nodesAround.slice(0, targetNodeCount)
+			// if (nodesAroundSlice.filter(n => n.type === "tag").length > 1) break;
+			// for (let i = targetNodeCount; i < nodesAround.length; i++) {
+			// 	if (nodesAround[i].type === "tag") nodesAround[i].multipliedLinkValue *= 1.1;
+			// }
+			break;
 		}
-		linksAround = linksAround.filter(l => nodesAround.some(n => n === l.source) && nodesAround.some(n => n === l.target));
+		let targetIntegralFactor = targetAverageValue / (nodesAroundSlice.map(n => n.multipliedLinkValue).reduce((a, b) => a + b, 0) / nodesAroundSlice.length);
+		for (let i in nodesAroundSlice) {
+			// Adjust curve in direction of target curve to  add perspecitve:
+			nodesAroundSlice[i].renderValue = (nodesAroundSlice[i].multipliedLinkValue + (targetCurve[i] || 0.01)) * 0.5
+			// Adjust cuve in direction of weighted  total size:
+			// nodesAroundSlice[i].renderValue *= (targetIntegralFactor * i / nodesAroundSlice.length);
+		}
+		// console.log(nodesAroundSlice.map(n => Math.round(n.multipliedLinkValue * 100)/100 + "-" + Math.round(n.renderValue * 100)/100).join("	"));
+		linksAround = linksAround.filter(l => nodesAroundSlice.some(n => n === l.source) && nodesAroundSlice.some(n => n === l.target));
 
-		// for (let n of data.nodes) {
-		// 	const found = nodesAround.find(d => +d.id === +n.id);
-		// 	n.iteration = found ? found.iteration : null;
-		// }
-
-		return {nodes: nodesAround, links: linksAround};
+		return {nodes: nodesAroundSlice, links: linksAround};
 	}
+
+	dataHandler.intro = (_ => {
+
+		let introData = {};
+
+		return function(step) {
+			// Can go back-and forth, must start with step 1:
+			console.log(step);
+			switch (step) {
+				case 0:
+					introData.nodes = [data.nodes.find(n => n.content === "Bill always counseled us to try to cut through those opinions and get to the heart of the matter.")];
+					introData.nodes[0].iteration = 0;
+					introData.nodes[0].renderValue = 1;
+					introData.links = [];
+					return introData;
+				case 1:
+					introData.nodes.push(data.nodes.find(n => n.content === "Decisions"))
+					introData.nodes[0].iteration = 1;
+					introData.nodes[1].iteration = 0;
+					introData.nodes[1].renderValue = 1;
+					introData.nodes[1].x = 1;
+					introData.nodes[1].y = 1;
+					return introData;
+				case 2:
+					return dataHandler.recenter(introData.nodes[1]);
+			}
+		}
+	})();
 
 	return dataHandler;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
