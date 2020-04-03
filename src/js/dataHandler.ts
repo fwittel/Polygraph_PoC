@@ -4,7 +4,7 @@ export default function(dInit) {
 
 	let data;
 	const targetNodeCount = 20;
-	const targetAverageValue = .4;
+	const targetAverageValue = .2;
 	const targetCurve = [
 		1,
 		0.707,
@@ -35,18 +35,6 @@ export default function(dInit) {
 
 	function dataUpdate(dataIn) {
 		if (!dataIn) return;
-		// for (let link of dataIn.links) {
-		// 	const sourceNode = dataIn.nodes.find(n => n.id === link.source);
-		// 	const targetNode = dataIn.nodes.find(n => n.id === link.target);
-		// 	if (sourceNode && targetNode) {
-		// 		link.source = sourceNode;
-		// 		link.target = targetNode;
-		// 	}
-		// 	else {
-				// console.log("Sorce data contains link without corresponding nodes: ", link);
-		// 	}
-		// }
-		// console.log(dataIn);
 		data = dataIn;
 	}
 
@@ -76,6 +64,7 @@ export default function(dInit) {
 	dataHandler.recenter = function (centerNode) {
 
 		if (!data) return null;
+		if (!centerNode) centerNode = data.nodes[parseInt(Math.random() * data.nodes.length)];
 		
 		centerNode.iteration = 0;
 		let iteration = 1;
@@ -106,23 +95,18 @@ export default function(dInit) {
 		} while (nodesAround.length < 50 && iteration < 10);
 
 		// Stretch closest nodes' distances to better fit UI expectations:
-		// We want at least two tags in the list, correct as long as that works:
 		let nodesAroundSlice;
 		while (true) {
 			nodesAround.sort((a, b) => (a.multipliedLinkValue > b.multipliedLinkValue ? -1 : 1));
 			nodesAroundSlice = nodesAround.slice(0, targetNodeCount)
-			// if (nodesAroundSlice.filter(n => n.type === "tag").length > 1) break;
-			// for (let i = targetNodeCount; i < nodesAround.length; i++) {
-			// 	if (nodesAround[i].type === "tag") nodesAround[i].multipliedLinkValue *= 1.1;
-			// }
 			break;
 		}
-		let targetIntegralFactor = targetAverageValue / (nodesAroundSlice.map(n => n.multipliedLinkValue).reduce((a, b) => a + b, 0) / nodesAroundSlice.length);
+		let targetIntegralFactor = targetAverageValue / nodesAroundSlice.map(n => n.multipliedLinkValue).reduce((a, b) => a + b, 0) * nodesAroundSlice.length;
 		for (let i in nodesAroundSlice) {
 			// Adjust curve in direction of target curve to  add perspecitve:
 			nodesAroundSlice[i].renderValue = (nodesAroundSlice[i].multipliedLinkValue + (targetCurve[i] || 0.01)) * 0.5
 			// Adjust cuve in direction of weighted  total size:
-			// nodesAroundSlice[i].renderValue *= (targetIntegralFactor * i / nodesAroundSlice.length);
+			nodesAroundSlice[i].renderValue *= (1 + +i * 2 / nodesAroundSlice.length * (targetIntegralFactor - 1));
 		}
 		// console.log(nodesAroundSlice.map(n => Math.round(n.multipliedLinkValue * 100)/100 + "-" + Math.round(n.renderValue * 100)/100).join("	"));
 		linksAround = linksAround.filter(l => nodesAroundSlice.some(n => n === l.source) && nodesAroundSlice.some(n => n === l.target));

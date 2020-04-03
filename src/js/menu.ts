@@ -35,7 +35,6 @@ export default function(n, cbs) {
 			.selectAll("div")
 			.data(data.citations, n => n ? n.id : null)
 			.join("div")
-				// .classed("uk-card uk-card-hover uk-card-body", true)
 				.text(n => n.content);
 
 	}
@@ -48,7 +47,6 @@ export default function(n, cbs) {
 	menu.data = function(_) {
 		if (_) {
 			data = _;
-			console.log(data);
 			update();
 			return this;	
 		} 

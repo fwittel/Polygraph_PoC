@@ -28,9 +28,6 @@ h3 {
 }
 
 .uk-label {
-	// border-bottom: 1px solid;
-	// border-top: 1px solid;
-	// font-weight: bold;
 	background-color: #fff;
 	color: #333;
 	margin: 0 15px 10px 0;
@@ -56,17 +53,15 @@ h3 {
 	div {
 		position: absolute;
 		width: 15em;
-		transform: translate(-50%, -50%);
+		transition-property: transform, opacity;
 		// Workaround for Safari rendering artifacts
-		box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.01);
 	}
 	.tag {
 		text-transform: uppercase;
 		width: auto;
 		line-height: 1;
 		font-weight: bold;
-		// border-bottom: .5px solid;
-		// border-top: .5px solid;
 	}
 }
 
