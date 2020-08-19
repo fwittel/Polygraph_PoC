@@ -52,9 +52,10 @@ export default function(dInit) {
 	dataHandler.search = function (searchString) {
 		
 		if (!data) return null;
+		if (!searchString || searchString.length < 1) return {tags: [], citations: []};
 
 		let result = {};
-		
+				
 		result.citations = data.nodes.filter(d => d.type !== "tag" && d.content.toLowerCase().search(searchString.toLowerCase()) > -1);
 		result.tags = data.nodes.filter(d => d.type === "tag" && d.content.toLowerCase().search(searchString.toLowerCase()) > -1)
 		

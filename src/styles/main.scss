@@ -16,11 +16,49 @@ $offcanvas-bar-color-mode: none;
 
 body {
 	height: 100vh;
-	color: #333
+	color: #333;
+	// pattern
+}
+
+.uk-iconnav .uk-icon-button {
+	display: inline-flex;
+	color: #333;
+	background: none;
+	box-shadow: 0 0 0 .7pt #333;
+}
+
+.uk-iconnav .uk-icon-button:hover {
+	background: #fff;
+	color: #333;
+}
+
+h2 {
+	font-size: 12pt;
+	text-transform: uppercase;
 }
 
 h3 {
 	font-size: 12pt;
+	padding-top: 1em;
+}
+
+#search-overlay {
+	width: 400px;
+	height: 700px;
+	overflow: hidden;
+}
+
+#search-close {
+	margin: 20px 20px 0px 0px;
+}
+
+#results {
+	height: 500px;
+	overflow: auto;
+}
+
+#footer p {
+	text-align: center;
 }
 
 .uk-label, #viz div, #citations div {
@@ -50,6 +88,9 @@ h3 {
 	font-size: 16pt;
 	transition-timing-function: ease-in-out;
 	transform-origin: center center;
+	background-color: #fff;
+	background-image: url('../img/cream-paper.jpg');
+	background-size: 119px 108px;
 	div {
 		position: absolute;
 		width: 15em;

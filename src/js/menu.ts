@@ -24,6 +24,9 @@ export default function(n, cbs) {
 	function update() {
 		if (!data || !node || !cbs) return;
 
+		node.select("#tags-header")
+			.style("visibility", data.tags.length > 0 ? "visible" : "hidden");
+
 		node.select("#tags")
 			.selectAll("span")
 			.data(data.tags, n => n ? n.id : null)
@@ -31,6 +34,9 @@ export default function(n, cbs) {
 				.classed("uk-label", true)
 				.text(n => n.content);
 
+		node.select("#citations-header")
+			.style("visibility", data.citations.length > 0 ? "visible" : "hidden");
+			
 		node.select("#citations")
 			.selectAll("div")
 			.data(data.citations, n => n ? n.id : null)
@@ -45,6 +51,7 @@ export default function(n, cbs) {
 	}
 
 	menu.data = function(_) {
+		console.log(_);
 		if (_) {
 			data = _;
 			update();

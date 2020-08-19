@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', _ => {
 	UIkit.modal("#modal").show();
 
 	const vizNode = d3.select("#viz");
-	const menuNode = d3.select("#menu");
+	const menuNode = d3.select("#search-overlay");
 
 	const dataPrev = parseTable(dataInPrev.default);
 
