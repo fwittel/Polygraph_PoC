@@ -21,7 +21,7 @@
          </li>
          <li>
                <a class="uk-icon-button" uk-icon="icon: chevron-left"></a>
-               <!-- <a href="" class="uk-icon-button" uk-icon="icon: chevron-right"></a> -->
+               <a href="" class="uk-icon-button" uk-icon="icon: chevron-right"></a>
          <li>
             <!-- <a href="" class="uk-icon-button" uk-icon="icon: yelp"></a> -->
          </li>
@@ -37,7 +37,7 @@
    <div id="search-overlay" uk-height-viewport="offset-bottom: 20" uk-drop="mode: click; toggle: #search-toggle; offset: -37">
       <div class="uk-card uk-card-body uk-card-small uk-card-default">
          <div>
-            <h2>Search Intuify</h2>
+            <h2>Search Your Intuify</h2>
             <button id="search-close" class="uk-drop-close uk-position-top-right" type="button" uk-close></button>
          </div>
          <div id="search">
@@ -63,36 +63,29 @@
       </div>
    </div>
    <div id="footer" class="uk-position-bottom uk-width-1-1 uk-width-expand">
-      <div class="uk-card uk-card-body uk-card-small uk-card-default" uk-grid>
-         <a class="uk-panel uk-width-auto" uk-icon="icon: chevron-left"></a>
-         <p class="uk-panel uk-width-expand">Why do we need more poymaths? Click the button on the right or use arrow keys.</p>
-         <a class="uk-panel uk-width-auto" uk-icon="icon: chevron-right"></a>
+      <div uk-grid class="uk-card uk-card-body uk-card-small uk-card-default uk-grid-medium">
+         <a class="uk-width-auto uk-position-center-left" uk-icon="icon: chevron-left"></a>
+         <p class="uk-width-expand">Why do we need more poymaths? Click the button on the right or use arrow keys.</p>
+         <a class="uk-width-auto uk-position-center-right" uk-icon="icon: chevron-right"></a>
       </div>
    </div>
-   <div id="modal" uk-modal="">
-       <div class="uk-modal-dialog">
+   <div id="modal-info" uk-modal>
+      <div class="uk-modal-dialog">
 
-           <!-- <div class="uk-modal-header uk-modal-title">
-               Willkommen
-           </div> -->
+         <div class="uk-modal-header uk-modal-title">
+            Your Intuify
+         </div>
 
-           <div class="uk-modal-body" uk-overflow-auto>
+         <div class="uk-modal-body" uk-overflow-auto>
+            <p>Info goes here</p>
+            <p>URL to HP; FAQ; Helpdesk</p>
+         </div>
 
-               <p>Liebe Kerstin,</p>
-               <p>wir haben vor einiger Zeit über Coaches und ein Format für Kollaboration gesprochen. Als Inspiration habe ich das Buch über Bill Campbell zusammengefasst, alle Zitate sind aus dem Buch <a href="https://www.trilliondollarcoach.com" target="_blank">Trillion Dollar Coach</a>.</p>
-               <p>Diese Art der Darstellung will ich in Zukunft nutzen, um Zitate aus verschiedenen Quellen besser in einen Kontext stellen zu können. Das Tool soll dem menschichen Denken möglichst ähnlich werden: assoziativ, amorph und etwas zufällig.</p>
-               <p>Ich bin gespannt, was du zu dem Prototyp sagst!</p>
-               <p>Viele Grüße,<br>   Fabian</p>
-               <p>P.S.: Funktioniert am Besten in Chrome, bisher nur am Laptop, nicht am Handy.</p>
+         <div class="uk-modal-footer uk-text-right">
+             <button id="modal-tour" class="uk-button uk-button-primary uk-modal-close" type="button">Close</button>
+         </div>
 
-           </div>
-
-           <div class="uk-modal-footer uk-text-right">
-               <button id="modal-skip" class="uk-button uk-button-default uk-modal-close" type="button">Skip tour</button>
-               <button id="modal-tour" class="uk-button uk-button-primary uk-modal-close" type="button">Let's go</button>
-           </div>
-
-       </div>
+      </div>
    </div>
 </body>
 </html>

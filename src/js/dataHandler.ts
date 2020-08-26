@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export default function(dInit) {
+export default function(dataUrl) {
 
 	let data;
 	const targetNodeCount = 20;
@@ -33,20 +33,27 @@ export default function(dInit) {
 		0.029
 	];
 
-	function dataUpdate(dataIn) {
-		if (!dataIn) return;
+	function loadData(dataUrl) {
+		if (!dataUrl) return;
+		// Asynchronous call:
+		d3.json(dataUrl).then(function(d) { console.log(d);});
+		// d3.json(dataUrl, d => parseData(d));
+	}
+
+	function parseData(dataIn) {
+		console.log(dataIn);
 		data = dataIn;
 	}
 
-	dataUpdate(dInit);
+	loadData(dataUrl);
 
 	function dataHandler() {
-		return data
+		return data;
 	}
 
-	dataHandler.data = function(dataIn) {
-		dataUpdate(dataIn);
-		return data;
+	dataHandler.dataUrl = function(_) {
+		if (_) loadData(_);
+		return dataUrl;
 	}
 
 	dataHandler.search = function (searchString) {
@@ -115,33 +122,35 @@ export default function(dInit) {
 		return {nodes: nodesAroundSlice, links: linksAround};
 	}
 
-	dataHandler.intro = (_ => {
+	// ### Move to intro
 
-		let introData = {};
+	// dataHandler.intro = (_ => {
 
-		return function(step) {
-			// Can go back-and forth, must start with step 1:
-			console.log(step);
-			switch (step) {
-				case 0:
-					introData.nodes = [data.nodes.find(n => n.content === "Bill always counseled us to try to cut through those opinions and get to the heart of the matter.")];
-					introData.nodes[0].iteration = 0;
-					introData.nodes[0].renderValue = 1;
-					introData.links = [];
-					return introData;
-				case 1:
-					introData.nodes.push(data.nodes.find(n => n.content === "Decisions"))
-					introData.nodes[0].iteration = 1;
-					introData.nodes[1].iteration = 0;
-					introData.nodes[1].renderValue = 1;
-					introData.nodes[1].x = 1;
-					introData.nodes[1].y = 1;
-					return introData;
-				case 2:
-					return dataHandler.recenter(introData.nodes[1]);
-			}
-		}
-	})();
+	// 	let introData = {};
+
+	// 	return function(step) {
+	// 		// Can go back-and forth, must start with step 1:
+	// 		console.log(step);
+	// 		switch (step) {
+	// 			case 0:
+	// 				introData.nodes = [data.nodes.find(n => n.content === "Bill always counseled us to try to cut through those opinions and get to the heart of the matter.")];
+	// 				introData.nodes[0].iteration = 0;
+	// 				introData.nodes[0].renderValue = 1;
+	// 				introData.links = [];
+	// 				return introData;
+	// 			case 1:
+	// 				introData.nodes.push(data.nodes.find(n => n.content === "Decisions"))
+	// 				introData.nodes[0].iteration = 1;
+	// 				introData.nodes[1].iteration = 0;
+	// 				introData.nodes[1].renderValue = 1;
+	// 				introData.nodes[1].x = 1;
+	// 				introData.nodes[1].y = 1;
+	// 				return introData;
+	// 			case 2:
+	// 				return dataHandler.recenter(introData.nodes[1]);
+	// 		}
+	// 	}
+	// })();
 
 	return dataHandler;
 }

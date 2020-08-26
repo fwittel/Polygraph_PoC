@@ -1,4 +1,4 @@
-import tippy, {sticky} from 'tippy.js';
+// import tippy, {sticky} from 'tippy.js';
 import * as d3 from "d3"
 
 let dataHandler, graph;
