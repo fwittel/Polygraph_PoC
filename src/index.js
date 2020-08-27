@@ -28,17 +28,28 @@ document.addEventListener('DOMContentLoaded', _ => {
 
 	// const dataPrev = parseTable(dataInPrev.default);
 
-	dataHandler = DataHandler(dataUrl);
+	centralMessage("Getting graph data...", "error");
+	dataHandler = DataHandler();
 	graph = Graph()
 		.node(vizNode)
 		.click(recenterGraph);
+	
+	let menu = Menu(menuNode, {recenterGraph, searchString});
 
 	dataHandler.callback(d => {
+		centralMessage("");
 		graph.data(d);
 		menu.data(dataHandler.search(""));
 	});
 
+	dataHandler.dataUrl(dataUrl);
+
 	function recenterGraph(centerNode) {
+		// Prototype for tagmode interaction:
+		console.log(centerNode);
+		if(tagMode.getState() && centerNode) {
+			tagMode();
+		}
 		const centeredData = dataHandler.recenter(centerNode);
 		sequencer.addHistory(centerNode);
 		graph.data(centeredData);
@@ -50,11 +61,9 @@ document.addEventListener('DOMContentLoaded', _ => {
 	}
 
 	function filterGraph(filterConfig) {
-		console.log(filterConfig);
 		dataHandler.filter(filterConfig);
+		recenterGraph();
 	}
-
-	let menu = Menu(menuNode, {recenterGraph, searchString});
 
 	let sequencer = Sequencer(historyNode).recenterCallback(recenterGraph);
 
@@ -76,3 +85,10 @@ document.addEventListener('DOMContentLoaded', _ => {
 	recenterGraph();
 
 })
+
+// Draft, if we keep that becomes a separate communications module.
+function centralMessage(message, mode) {
+	const colors = {error: "#7e1203"}
+	document.querySelector("#central-message").innerHTML = message;
+	document.querySelector("#central-message").style.color = colors[mode] || null;
+}

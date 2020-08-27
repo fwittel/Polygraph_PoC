@@ -2,6 +2,7 @@
 $global-link-color: #333;
 $global-font-family: 'Cardo', serif;
 $global-active-color: #8da683;
+$global-inactive-color: #aaa;
 
 // 2. Import default variables and available mixins.
 @import "uikit/src/scss/variables-theme.scss";
@@ -24,22 +25,23 @@ body {
 .uk-iconnav .uk-icon-button {
 	display: inline-flex;
 	color: #333;
-	background: none;
+	background: #fff;
 	box-shadow: 0 0 0 .7pt #333;
 }
 
 .uk-iconnav .inactive {
-	opacity: .4;
-	cursor: default;
+	color: $global-inactive-color;
+	box-shadow: 0 0 0 .7pt $global-inactive-color;
+	pointer-events: none;
 }
 
-.uk-iconnav .active {
+.uk-iconnav .active, .uk-iconnav .uk-open {
 	background: $global-active-color;
 }
 
 .uk-iconnav .uk-icon-button:hover {
-	color: $global-active-color;
-	box-shadow: 0 0 0 .7pt $global-active-color;
+	background: $global-active-color;
+	color: #333;
 }
 
 h2 {
@@ -56,6 +58,13 @@ h3 {
 	width: 400px;
 	height: 700px;
 	overflow: hidden;
+	background: white;
+	// This is a  temporary workaround:
+	box-shadow: 0 0 0 .7pt #ddd;
+}
+
+#search-overlay div {
+	box-shadow: none;
 }
 
 #search-close {
@@ -90,6 +99,16 @@ h3 {
 	margin: 0 0 15px 0;
 }
 
+#branding-overlay {
+	// transform: skew(-15deg);
+	background: $global-active-color;
+	margin-right: 40px;
+	padding: 12px 12px 17px 12px;
+	div {
+		// transform: skew(10deg);
+	}
+}
+
 #viz { 
 	height: 100vh;
 	width: 100vw;
@@ -116,17 +135,7 @@ h3 {
 	}
 }
 
-.tippy-popper {
-	text-align: center;
-	p {
-		margin: 0 0 0.5em 0;
-	}
-}
-
-.tippy-content div {
-	padding: .5em;
-}
-
-.tippy-popper, #modal {
-	font-family: "Montserrat", sans-serif;
+#central-message {
+	font-size: 48px;
+	pointer-events: none;
 }
