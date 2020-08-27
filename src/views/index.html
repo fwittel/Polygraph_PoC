@@ -11,17 +11,17 @@
    <div id="viz">
       <!-- Divs of visualization go here -->
    </div>
-   <div id="icon-set" class="uk-position-top-left uk-position-medium">
+   <div id="icons-menu" class="uk-position-top-left uk-position-medium">
       <ul class="uk-iconnav-vertical uk-iconnav">
          <li>
             <a id="search-toggle" class="uk-icon-button" uk-icon="icon: search"></a>
          </li>
          <li>
-            <a class="uk-icon-button" uk-icon="icon: hashtag"></a>
+            <a id="tag-mode" class="uk-icon-button" uk-icon="icon: hashtag"></a>
          </li>
-         <li>
-               <a class="uk-icon-button" uk-icon="icon: chevron-left"></a>
-               <a href="" class="uk-icon-button" uk-icon="icon: chevron-right"></a>
+         <li id="icons-history">
+               <a id="history-backward" class="uk-icon-button" uk-icon="icon: chevron-left"></a>
+               <a id="history-forward" class="uk-icon-button" uk-icon="icon: chevron-right"></a>
          <li>
             <!-- <a href="" class="uk-icon-button" uk-icon="icon: yelp"></a> -->
          </li>
@@ -62,7 +62,7 @@
          </div>
       </div>
    </div>
-   <div id="footer" class="uk-position-bottom uk-width-1-1 uk-width-expand">
+   <div id="tour-overlay" class="uk-position-bottom uk-width-1-1 uk-width-expand" style="visibility: hidden;">
       <div uk-grid class="uk-card uk-card-body uk-card-small uk-card-default uk-grid-medium">
          <a class="uk-width-auto uk-position-center-left" uk-icon="icon: chevron-left"></a>
          <p class="uk-width-expand">Why do we need more poymaths? Click the button on the right or use arrow keys.</p>

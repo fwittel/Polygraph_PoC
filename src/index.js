@@ -10,6 +10,8 @@ UIkit.use(Icons);
 import DataHandler from './js/dataHandler.ts'
 import Graph from './js/graph.ts'
 import Menu from './js/menu.ts'
+import Sequencer from './js/sequencer.ts'
+import TagMode from './js/tagMode.ts'
 // import Intro from './js/intro.ts'
 import { debounce, parseTable } from './js/utilities.ts'
 
@@ -20,6 +22,9 @@ document.addEventListener('DOMContentLoaded', _ => {
 
 	const vizNode = d3.select("#viz");
 	const menuNode = d3.select("#search-overlay");
+	const historyNode = d3.select("#icons-history");
+	const tagNode = d3.select("#tag-mode");
+	// const tourNode = d3.select("#tour-overlay");
 
 	// const dataPrev = parseTable(dataInPrev.default);
 
@@ -28,8 +33,14 @@ document.addEventListener('DOMContentLoaded', _ => {
 		.node(vizNode)
 		.click(recenterGraph);
 
+	dataHandler.callback(d => {
+		graph.data(d);
+		menu.data(dataHandler.search(""));
+	});
+
 	function recenterGraph(centerNode) {
 		const centeredData = dataHandler.recenter(centerNode);
+		sequencer.addHistory(centerNode);
 		graph.data(centeredData);
 	}
 
@@ -38,17 +49,23 @@ document.addEventListener('DOMContentLoaded', _ => {
 		menu.data(foundData);
 	}
 
+	function filterGraph(filterConfig) {
+		console.log(filterConfig);
+		dataHandler.filter(filterConfig);
+	}
+
 	let menu = Menu(menuNode, {recenterGraph, searchString});
 
-	let searchData = dataHandler.search("");
-	menu.data(searchData);
+	let sequencer = Sequencer(historyNode).recenterCallback(recenterGraph);
+
+	let tagMode = TagMode(tagNode).filterCallback(filterGraph);
 
 	// const intro = Intro(dataHandler, graph);
 
-	d3.select("#modal-skip").on("click", _ => graph.data(dataHandler.recenter()));
-	d3.select("#modal-tour").on("click", _ => {
-					intro(0);
-				});
+	// d3.select("#modal-skip").on("click", _ => graph.data(dataHandler.recenter()));
+	// d3.select("#modal-tour").on("click", _ => {
+	// 				intro(0);
+	// 			});
 
 	document.querySelector("#icon-help").addEventListener("click", _ => UIkit.modal("#modal-info").show());
 

@@ -1,6 +1,7 @@
 // 1. Your custom variables and variable overwrites.
 $global-link-color: #333;
 $global-font-family: 'Cardo', serif;
+$global-active-color: #8da683;
 
 // 2. Import default variables and available mixins.
 @import "uikit/src/scss/variables-theme.scss";
@@ -27,9 +28,18 @@ body {
 	box-shadow: 0 0 0 .7pt #333;
 }
 
+.uk-iconnav .inactive {
+	opacity: .4;
+	cursor: default;
+}
+
+.uk-iconnav .active {
+	background: $global-active-color;
+}
+
 .uk-iconnav .uk-icon-button:hover {
-	background: #fff;
-	color: #333;
+	color: $global-active-color;
+	box-shadow: 0 0 0 .7pt $global-active-color;
 }
 
 h2 {
@@ -57,7 +67,7 @@ h3 {
 	overflow: auto;
 }
 
-#footer p {
+#tour-overlay p {
 	text-align: center;
 }
 

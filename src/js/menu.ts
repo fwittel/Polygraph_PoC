@@ -2,7 +2,9 @@ import * as d3 from "d3";
 
 export default function(n, cbs) {
 
-	let data, node, callbacks;
+	let data, 
+		node,
+		callbacks;
 
 	node = n;
 	callbacks = cbs;
@@ -25,7 +27,10 @@ export default function(n, cbs) {
 		if (!data || !node || !cbs) return;
 
 		node.select("#tags-header")
-			.style("visibility", data.tags.length > 0 ? "visible" : "hidden");
+			.style("visibility", data.tags.length || data.citations.length > 0 ? "visible" : "hidden");
+
+		node.select("#citations-header")
+			.style("visibility", data.citations.length > 0 ? "visible" : "hidden");
 
 		node.select("#tags")
 			.selectAll("span")
@@ -34,8 +39,8 @@ export default function(n, cbs) {
 				.classed("uk-label", true)
 				.text(n => n.content);
 
-		node.select("#citations-header")
-			.style("visibility", data.citations.length > 0 ? "visible" : "hidden");
+		// node.select("#citations-header")
+		// 	.style("visibility", data.citations.length > 0 ? "visible" : "hidden");
 			
 		node.select("#citations")
 			.selectAll("div")

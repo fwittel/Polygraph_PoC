@@ -3,6 +3,9 @@ import * as d3 from "d3";
 export default function(dataUrl) {
 
 	let data;
+	let callback;
+	let centerNode;
+	let filterFunc;
 	const targetNodeCount = 20;
 	const targetAverageValue = .2;
 	const targetCurve = [
@@ -36,13 +39,65 @@ export default function(dataUrl) {
 	function loadData(dataUrl) {
 		if (!dataUrl) return;
 		// Asynchronous call:
-		d3.json(dataUrl).then(function(d) { console.log(d);});
-		// d3.json(dataUrl, d => parseData(d));
+		console.log("dataHandler: Calling REST API");
+		d3.json(dataUrl).then(d => parseData(d));
 	}
 
 	function parseData(dataIn) {
-		console.log(dataIn);
-		data = dataIn;
+		console.log("dataHandler: REST API response");
+		if(!dataIn.records) return {};
+		
+		// Generic transfer of neo4j-structure to map of elements by type and id to have unique elements:
+		let dataBuffer = {};
+		for (let record of dataIn.records) {
+			for (let key of record.keys) {
+				let fieldIndex = record._fieldLookup[key];
+				for (let field of record._fields[fieldIndex]) {
+					if (!dataBuffer[key]) dataBuffer[key] = {};
+					dataBuffer[key][field.identity] = field;
+				}
+			}
+		}
+		// Change object to array, change "rels" to "links":
+		let dataOut = {};
+		for (let keyIn in dataBuffer) {
+			let keyOut = keyIn === "rels" ? "links" : "nodes";
+			dataOut[keyOut] = [];
+			for (let index in dataBuffer[keyIn]) {
+				let elementIn = dataBuffer[keyIn][index];
+				let elementOut = {};
+				elementOut.id = index;
+				elementOut.createdOn = new Date(`${elementIn.properties.created_on.year.low}-${elementIn.properties.created_on.month.low}-${elementIn.properties.created_on.day.low}`);
+				if (elementIn.start) {
+					// Relations:
+					elementOut.source = elementIn.start;
+					elementOut.target = elementIn.end;
+					elementOut.value = .9;
+				}
+				else {
+					// Other elements, e.g. tags:
+					elementOut.content = elementIn.properties.content;
+					elementOut.type = elementIn.labels[0] === "Label" ? "tag" : elementIn.labels[0];
+				}
+				dataOut[keyOut].push(elementOut);
+			}
+		}
+		// Replace link node IDd with references:
+		for (let link of dataOut.links) {
+			let source = dataOut.nodes.find(n => n.id === link.source);
+			let target = dataOut.nodes.find(n => n.id === link.target);
+			if (source && target) {
+				link.source = source;
+				link.target = target;
+			}
+			else {
+				console.log("dataHandler: backend seems to deliver links without nodes.");
+			}
+		}
+		console.log(dataOut);
+		data = dataOut;
+		let centeredData = dataHandler.recenter();
+		callback(centeredData);
 	}
 
 	loadData(dataUrl);
@@ -56,10 +111,20 @@ export default function(dataUrl) {
 		return dataUrl;
 	}
 
+	dataHandler.callback = function(_) {
+		if (_) callback = _;
+		return dataHandler;
+	}
+
+	dataHandler.filter = function(_) {
+		if (_) filterFunc = _;
+		return filterFunc;
+	}
+
 	dataHandler.search = function (searchString) {
 		
 		if (!data) return null;
-		if (!searchString || searchString.length < 1) return {tags: [], citations: []};
+		if (!searchString || searchString.length < 1) return {tags: data.nodes.filter(d => d.type === "tag"), citations: []};
 
 		let result = {};
 				
@@ -69,10 +134,17 @@ export default function(dataUrl) {
 		return result;
 	}
 
-	dataHandler.recenter = function (centerNode) {
+	dataHandler.recenter = function (centerNodeIn) {
+
+		if (centerNodeIn) {
+			centerNode = centerNodeIn;
+		}
 
 		if (!data) return null;
-		if (!centerNode) centerNode = data.nodes[parseInt(Math.random() * data.nodes.length)];
+
+		if (!centerNode) {
+			centerNode = data.nodes[parseInt(Math.random() * data.nodes.length)];
+		}
 		
 		centerNode.iteration = 0;
 		let iteration = 1;
@@ -116,13 +188,14 @@ export default function(dataUrl) {
 			// Adjust cuve in direction of weighted  total size:
 			nodesAroundSlice[i].renderValue *= (1 + +i * 2 / nodesAroundSlice.length * (targetIntegralFactor - 1));
 		}
-		// console.log(nodesAroundSlice.map(n => Math.round(n.multipliedLinkValue * 100)/100 + "-" + Math.round(n.renderValue * 100)/100).join("	"));
 		linksAround = linksAround.filter(l => nodesAroundSlice.some(n => n === l.source) && nodesAroundSlice.some(n => n === l.target));
+		// Make unique:
+		linksAround = [...new Set(linksAround.map(l => l.id))].map(id => linksAround.find(l => l.id === id));
 
 		return {nodes: nodesAroundSlice, links: linksAround};
 	}
 
-	// ### Move to intro
+	// ### Move to intro to better modularize. Add options here if neccessary
 
 	// dataHandler.intro = (_ => {
 
