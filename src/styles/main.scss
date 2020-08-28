@@ -19,7 +19,6 @@ $offcanvas-bar-color-mode: none;
 body {
 	height: 100vh;
 	color: #333;
-	// pattern
 }
 
 .uk-iconnav .uk-icon-button {
@@ -27,6 +26,7 @@ body {
 	color: #333;
 	background: #fff;
 	box-shadow: 0 0 0 .7pt #333;
+	background-image: url('../img/cream-paper.jpg');
 }
 
 .uk-iconnav .inactive {
